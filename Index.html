@@ -1,0 +1,33 @@
+<html ng-app="countryApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Angular-JSON Search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js">
+    </script>
+    <script>
+      var countryApp = angular.module('countryApp', []);
+      /*Dependency Injection*/
+      countryApp.controller('searchCtrl', ['$scope', '$http', function (scope, http){
+      http({
+      method: 'GET',
+      url: 'data/countries.json'
+   		}).then(function (success){
+   			var data = success.data;
+   			scope.countries = data;
+   		});
+	}]);
+    </script>
+  </head>
+  <body ng-controller="searchCtrl">Search:<input ng-model="query" type="text"/>
+    <table>
+      <tr>
+        <th>Country</th>
+        <th>Capital</th>
+      </tr>
+      <tr ng-repeat="country in countries | filter:query">
+        <td>{{country.country}}</td>
+        <td>{{country.city}}</td>
+      </tr>
+    </table>
+  </body>
+</html>
